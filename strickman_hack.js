@@ -1,4 +1,3 @@
- 
 // ==UserScript==
 // @name         Stickman_Hack
 // @namespace    http://tampermonkey.net/
@@ -29,7 +28,7 @@ easy_attr_macros = {}; //dictionary for easy_attr keys
         //wait until stickman is loaded
         //in fact, we wait until there is an object with class tabs__item e.g. the Attributes/Objects-Tabs
         if ($(".tabs__item").size()>0)
-             load_control_elements();
+             setTimeout(load_control_elements, 500);
         else
         {
             //check again in half a second
