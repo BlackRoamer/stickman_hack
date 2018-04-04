@@ -189,8 +189,7 @@ function autoadvance_wrapper()
                 return;
             }
         }
-        if (advancing_further)
-            advance_one_frame(true);
+       advance_one_frame(true);
    }
 }
 
