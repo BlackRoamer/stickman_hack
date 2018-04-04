@@ -72,13 +72,16 @@ old_state = ""; // used to check if attributes are changing while fast-forwardin
         $("#hack_inp_attr_key").keyup(function(e)
         {
             // restrict input to one lowercase character excluding a,r,e (used by stickman), numbers and <,.-öä#+üö
-            $("#hack_inp_attr_key").val((e.keyCode > 64 && e.keyCode < 91)||(e.keyCode > 47 && e.keyCode < 58)||[188,190,189, 192,222,186,191,187,220].includes(e.keyCode).includes(e.key)&&("are".indexOf(e.key.toLowerCase())==-1)?e.key:"");
+            $("#hack_inp_attr_key").val(((e.keyCode > 64 && e.keyCode < 91)||
+                                        (e.keyCode > 47 && e.keyCode < 58)||
+                                        [188,190,189, 192,222,186,191,187,220].includes(e.keyCode))&&
+                                        ("are".indexOf(e.key.toLowerCase())==-1)?e.key:"");
         });
 
         $("#hack_btn_attr_set").click(function()
         {
             //set macro
-            if ($("#hack_inp_attr_key").val=="")
+            if ($("#hack_inp_attr_key").val()=="")
                 alert("No key specified");
             else
             {
