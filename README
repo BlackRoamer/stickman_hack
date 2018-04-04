@@ -1,0 +1,14 @@
+How to use:
+
+1) Use with firefox/chrome/chromium and Tampermonkey (recommanded)
+- you have to use the firefox Chromium, or Chrome Browser (some forks may also work if tampermonkey is supported)
+- the Tampermonkey-extension must be installed and activated (you should find the extension with a quick google-search)
+- create a new tampermonkeyscript (click on the tampermonkey-icon in the toolbar) and copy the content of stickman_hack.js into it. Save.
+- now the stickman_hack-panel should be loaded automatically wtih the stickman review-plot
+
+2) use with javascript-console
+- open the review-plot of stickman
+- open a javascript-console (usually in the developement-tools of the browser)
+- copy-paste the content of stickman_hack.js into the console and press Enter
+- the stickman_hack-panel should appear
+- this procedure must be repeated each time the review-plot is reloaded
