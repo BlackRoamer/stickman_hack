@@ -1,6 +1,5 @@
 // ==UserScript==
 // @name         Stickman_Hack
-// @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  Adding features to stickman
 // @author       Alexis
@@ -162,18 +161,15 @@ function autoadvance_wrapper()
     }
     else
     {
-        console.log("cheking");
         //check conditions for advancing
         if($("#hack_check_stop_when_lost_tracking").html()=="check_box" && ($("label:contains('Tracking mode')").next().text()!="check_box"))
         {
             //stop if tracking is lost
             stop_forwarding();
-            console.log("ALARM");
             return;
         }
         if($("#hack_check_stop_when_attr_empty").html()=="check_box" && ($(".attributes").find(".input-group__selections").size()!=$(".attributes").find(".input-group__selections__comma").size()))
         {
-            console.log("empty_check");
             //stop if attribute is emtpy, that is checked through compairing numbers of input-group__selections and input-group__selections_comma
             stop_forwarding();
             return;
