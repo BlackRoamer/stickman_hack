@@ -8,16 +8,15 @@
 // @grant        none
 // ==/UserScript==
 
+// This script colors boxes depending on value of an attribute
+// HOWTO: Press X to color attributes
+// known Bugs: 
+//      - Zooming isn't supportet
+//      - The selected box might be colored wrong (if the value isn't saved to the database)
 
-attribute_label="parking";
 
-attribute_objects=["all"];
 
-attribute_colors = {
-    true:'rgba(0,255,0,0.2)',
-    false:'rgba(255,0,0,0.2)',
-    "else":'rgba(255,0,0,1)'
-};
+attribute_objects=["all"]; //"all" for all objects or a list of object-types, i.e. ["Vehicle","Sign"]
 
 attribute_label="category";
 
@@ -26,7 +25,7 @@ attribute_colors = {
 //    "car":'rgba(0,255,0,0.2)',
 //    "truck":'rgba(0,0,255,0.2)',
     null:'rgba(255,0,0,0.5)',
-    "else":'rgba(255,0,0,0)'
+    "else":'rgba(0,0,0,0)' 
 };
 
 
@@ -39,16 +38,16 @@ attribute_colors = {
         $(document).keydown(function(e){
             switch (e.key){
                 case " ":
-                    $("label:contains('"+attribute_label+"')").next().find(".input-group--selection-controls__ripple").trigger("click");
+                    //$("label:contains('"+attribute_label+"')").next().find(".input-group--selection-controls__ripple").trigger("click");
                     break;
                 case "x":
                     show_attributes();
                     break;
                 case "y":
-                    $("i:contains('keyboard_arrow_left')").click();
+                    //$("i:contains('keyboard_arrow_left')").click();
                     break;
                 case "c":
-                    $("i:contains('keyboard_arrow_right')").click();
+                    //$("i:contains('keyboard_arrow_right')").click();
             }
         });
     }, 2000);
