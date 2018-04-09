@@ -1,33 +1,22 @@
 // ==UserScript==
 // @name         Abu_Dhabi_Show_attributes
-// @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  try to take over the world!
-// @author       You
+// @description  color Boxes depending on attributes
+// @author       Alexis
 // @match        https://ia-abu-dhabi.stickman.services.understand.ai/
 // @grant        none
 // ==/UserScript==
 
-// This script colors boxes depending on value of an attribute
-// HOWTO: Press X to color attributes
-// known Bugs: 
-//      - Zooming isn't supportet
-//      - The selected box might be colored wrong (if the value isn't saved to the database)
 
+attribute_label="parking";
 
-
-attribute_objects=["all"]; //"all" for all objects or a list of object-types, i.e. ["Vehicle","Sign"]
-
-attribute_label="category";
+attribute_objects=["Vehicle"];
 
 attribute_colors = {
-//    "motorbike":'rgba(255,0,0,0.2)',
-//    "car":'rgba(0,255,0,0.2)',
-//    "truck":'rgba(0,0,255,0.2)',
-    null:'rgba(255,0,0,0.5)',
-    "else":'rgba(0,0,0,0)' 
+    true:'rgba(0,255,0,0.6)',
+    false:'rgba(255,0,0,0.6)',
+    "else":'rgba(255,0,255,1)'
 };
-
 
 (function() {
     'use strict';
@@ -38,16 +27,16 @@ attribute_colors = {
         $(document).keydown(function(e){
             switch (e.key){
                 case " ":
-                    //$("label:contains('"+attribute_label+"')").next().find(".input-group--selection-controls__ripple").trigger("click");
+                    $("label:contains('"+attribute_label+"')").next().find(".input-group--selection-controls__ripple").trigger("click");
                     break;
                 case "x":
                     show_attributes();
                     break;
                 case "y":
-                    //$("i:contains('keyboard_arrow_left')").click();
+                    $("i:contains('keyboard_arrow_left')").click();
                     break;
                 case "c":
-                    //$("i:contains('keyboard_arrow_right')").click();
+                    $("i:contains('keyboard_arrow_right')").click();
             }
         });
     }, 2000);
@@ -67,18 +56,19 @@ attribute_colors = {
             for(var box_id in boxdata)
             {
                 var box=boxdata[box_id];
-                if (attribute_objects.indexOf(box.classification.tag)>-1 || attribute_objects.indexOf("all")>-1)
-                {
-                    if (box.attributes[attribute_label] in attribute_colors)
-                        draw_layer2d.fillStyle = attribute_colors[box.attributes[attribute_label]];
-                    else
-                        draw_layer2d.fillStyle = attribute_colors["else"];
+                if (attribute_label in box.attributes)
+                    if (attribute_objects.indexOf(box.classification.tag)>-1 || attribute_objects.indexOf("all")>-1)
+                    {
+                        if (box.attributes[attribute_label] in attribute_colors)
+                            draw_layer2d.fillStyle = attribute_colors[box.attributes[attribute_label]];
+                        else
+                            draw_layer2d.fillStyle = attribute_colors["else"];
 
-                    draw_layer2d.fillRect(box.data.topLeftPoint.x/frame_width*canvas_width,
-                                          box.data.topLeftPoint.y/frame_height*canvas_height,
-                                          box.data.width/frame_width*canvas_width,
-                                          box.data.height/frame_height*canvas_height);
-                }
+                        draw_layer2d.fillRect(box.data.topLeftPoint.x/frame_width*canvas_width,
+                                              box.data.topLeftPoint.y/frame_height*canvas_height,
+                                              box.data.width/frame_width*canvas_width,
+                                              box.data.height/frame_height*canvas_height);
+                    }
             }
         });
     }
