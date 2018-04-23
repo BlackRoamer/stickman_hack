@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         EUCALYPTUS
-// @version      0.1
+// @version      0.5
 // @description  Adding features to stickman
 // @author       Alexis
 // @match        https://*.stickman.services.understand.ai*plot*
@@ -42,7 +42,7 @@ old_state = ""; // used to check if attributes are changing while fast-forwardin
     function load_control_elements()
     {
         load_sendkeys();
-        //add html for the the EUCALYPTUS-Panel
+        //add html for the the stickman_hack-Panel
         $(".align-content-start").last().after("<div class='flex xl2 xs3 fill-height align-content-start'><div class='container py-0 pr-0 fluid grid-list-md fill-height'><div class='layout column'><div class='card' style='height: auto;'><div class='card__text' id='hack_panel'> <h3>EUCALYPTUS</h3><h4>Fast_Forward</h4><div class='layout'><br><div class='input-group input-group--dirty input-group--hide-details input-group--text-field primary--text'><label>Speed (miliseconds until next frame)</label><div class='input-group__input'><input type='text' id='hack_inp_forward' value='+800'><button type='button' class='btn btn--flat btn--small' style='position: relative;'><div class='btn__content' id='hack_btn_forward'>&gt;&gt;</div></button></div><div class='input-group__details'></div></div></div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_stop_when_lost_tracking'>check_box_outline_blank</i>stop when tracking is lost</div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_stop_when_attr_empty'>check_box_outline_blank</i>stop when attribute is empty</div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_stop_when_attr_changed'>check_box_outline_blank</i>stop when attribute changed</div><h4>easy_id:</h4><div class='layout'><div class='input-group input-group--dirty input-group--hide-details input-group--text-field primary--text'><label>temporalId</label><div class='input-group__input'><input type='text' id='hack_inp_easyid'></div><div class='input-group__details'></div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_easyid_click'>check_box_outline_blank</i>insert temporalId with click</div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_easyid_advance'>check_box_outline_blank</i>advance frame with click</div></div></div> <h4>easy_attributes:</h4><div style='/* white-space: nowrap; */'><button type='button' class='btn btn--small' style='position: relative;'><div class='btn__content' id='hack_btn_attr_set'>Create Macro</div><input type='text' value='m' style='width: 20pt;text-align: center;' id='hack_inp_attr_key'></button><button type='button' class='btn btn--small' style='position: relative;' id='hack_btn_attr_show'><div class='btn__content'>Show</div></button><button type='button' class='btn btn--small' style='position: relative;' id='hack_btn_attr_del'><div class='btn__content'>Delete</div></button></div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_attr_use'>check_box_outline_blank</i>Use keys for macros</div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_attr_tempid'>check_box_outline_blank</i>include temporalId</div><div class='input-group__input'><i aria-hidden='true' class='hack_checkbox icon icon--selection-control material-icons' style='transform-origin: center top 0px;' id='hack_check_attr_advance'>check_box_outline_blank</i>advance frame after macro</div></div></div></div></div></div>");
         //functionality for checkboxes
         $(".hack_checkbox").click(function(){$(this).html($(this).html()=="check_box"?"check_box_outline_blank":"check_box");});
@@ -211,7 +211,7 @@ function copy_attr()
     //get dict of attributes in attribute boxes
     var attr_dict={};
     var input_group_list=$(".attributes").find(".input-group--select").toArray();
-    $(".attributes").find(".input-group--select").each(function(){
+    $("h3:contains('Attributes')").parent().find(".input-group--select").each(function(){
         var attr_val =$(this).find(".input-group__selections__comma").text();
         if(attr_val!="")
             attr_dict[$(this).find("label").text()]=$(this).find(".input-group__selections__comma").text();
@@ -232,6 +232,7 @@ function change_attr(attr_dict)
         // simulate click and selection on the attribute
         var clickdelay = 200; //deley between clicking and selecting
         $("label:contains('"+key+"')").next().find(".input-group__selections").trigger("click");
+        console.log("set "+key+" to "+val);
         setTimeout(function(val)
         {
             //simulate click on menu item
@@ -245,6 +246,7 @@ function change_attr(attr_dict)
         // check if the attribute is already set and change if not so
         if ($("label:contains('"+key+"')").next().find(".input-group__selections").text()!=val)
         {
+             console.log("we want to set "+key+" to "+val);
             if (key=="temporalId")
                 setTimeout(set_id,delay,attr_dict.temporalId);
             else
