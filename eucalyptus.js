@@ -165,7 +165,7 @@ function autoadvance_wrapper()
     else
     {
         //check conditions for advancing
-        if($("#hack_check_stop_when_lost_tracking").html()=="check_box" && ($("label:contains('Tracking mode')").next().text()!="check_box"))
+        if($("#hack_check_stop_when_lost_tracking").html()=="check_box" && !($("label:contains('Tracking')").next().children().children().hasClass("input-group--selection-controls__toggle--active")))
         {
             //stop if tracking is lost
             stop_forwarding();
